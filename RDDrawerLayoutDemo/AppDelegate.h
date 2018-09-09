@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RDDrawerLayout.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, RDDrawerLayoutDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

@@ -39,7 +39,6 @@
 @property (nonatomic) float contentRadius;      //主控制器滑开以后，剩余可见部分的圆角 0～随意 不填默认 15（0为无圆角）
 
 
-//TO DO: 试验本类的四个代理返回方法是否正确可用
 //TO DO: 做status bar颜色改变
 //TO DO: 做content滑开以后有偏深色按钮覆盖，点击content区域可以关闭menu
 //TO DO: 做content阴影

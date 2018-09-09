@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "RDDrawerLayout.h"
+
 #import "MenuViewController.h"
 #import "HomeViewController.h"
 
@@ -39,6 +39,7 @@
     MenuViewController  *menuVC = [[MenuViewController alloc] init];
 
     RDDrawerLayout *rootLayoutVC = [[RDDrawerLayout alloc]init];
+    rootLayoutVC.delegate = self;
     rootLayoutVC.menuViewController = menuVC;
     rootLayoutVC.contentViewController = mainNav; 
     
@@ -75,6 +76,30 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
+
+
+
+
+#pragma mark -
+#pragma RDDrawerLayoutDelegate
+- (void)drawerLayoutWillShowMenu:(RDDrawerLayout*)drawerLayout
+{
+    //NSLog(@"drawerLayoutWillShowMenu");
+}
+- (void)drawerLayoutDidShowMenu:(RDDrawerLayout*)drawerLayout
+{
+    //NSLog(@"drawerLayoutDidShowMenu");
+}
+- (void)drawerLayoutWillHideMenu:(RDDrawerLayout*)drawerLayout
+{
+    //NSLog(@"drawerLayoutWillHideMenu");
+}
+- (void)drawerLayoutDidHideMenu:(RDDrawerLayout*)drawerLayout
+{
+    //NSLog(@"drawerLayoutDidHideMenu");
+}
+
+
 
 
 @end
