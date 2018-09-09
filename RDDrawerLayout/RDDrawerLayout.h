@@ -31,13 +31,13 @@
 
 //两个子控制器menuViewController和contentViewController，此处强制必须不能为空
 @property (nonatomic, strong, nonnull) UIViewController *menuViewController;
-@property (nonatomic, strong, nonnull) UIViewController *contentViewController;
+@property (nonatomic, strong, nonnull) UINavigationController *contentViewController;
 
 @property (nonatomic) float contentLeaveWidth;  //主控制器滑开以后，剩余可见部分的宽度 不填默认 60.0
 @property (nonatomic) float contentLeaveScale;  //主控制器滑开以后，剩余可见部分的缩放比例 等比0～1 不填默认 0.618
 
 @property (nonatomic) float contentRadius;      //主控制器滑开以后，剩余可见部分的圆角 0～随意 不填默认 15（0为无圆角）
-
+//@property (nonatomic) UIStatusBarStyle menuStatusBarStyle; //菜单控制器状态栏风格，默认 UIStatusBarStyleDefault
 
 //TO DO: 做status bar颜色改变
 //TO DO: 做content滑开以后有偏深色按钮覆盖，点击content区域可以关闭menu

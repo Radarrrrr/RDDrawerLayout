@@ -20,6 +20,10 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
+    //self.preferredStatusBarStyle = UIStatusBarStyleLightContent;
+    
+    //[self preferredStatusBarStyle];
+    
 }
 
 

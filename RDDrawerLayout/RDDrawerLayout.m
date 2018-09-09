@@ -30,21 +30,35 @@
 
 @implementation RDDrawerLayout
 
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        [self commonInit];
+    }
+    return self;
+}
+
+- (void)commonInit
+{
+    self.contentLeaveWidth = 60.0;
+    self.contentLeaveScale = 0.75;
+    self.contentRadius = 15;
+    //self.menuStatusBarStyle = UIStatusBarStyleDefault;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
     self.view.backgroundColor = [UIColor blueColor];
    
-    self.contentLeaveWidth = 60.0;
-    self.contentLeaveScale = 0.75;
-    
+    //根据外部设定属性，重新计算内部使用的属性
     self.startX = 0.0;
     self.currentX = 0.0;
     self.showX = SCRW - _contentLeaveWidth;
     self.showY = SCRH*(1-_contentLeaveScale)/2;
     self.showing = NO;
-    self.contentRadius = 15;
     
     //将menuViewController和contentViewController添加到self中作为子控制器。将他们的view添加到self.view中
     [self addChildViewController:self.menuViewController];
@@ -91,6 +105,39 @@
     _contentViewController.view.layer.cornerRadius = radius;
     _contentViewController.view.layer.masksToBounds = YES;
 }
+
+
+
+
+#pragma mark -
+#pragma mark Status Bar Appearance Management
+//- (UIStatusBarStyle)preferredStatusBarStyle
+//{
+//    UIStatusBarStyle statusBarStyle = UIStatusBarStyleDefault;
+//    
+//    statusBarStyle = _showing ? _menuStatusBarStyle : _contentViewController.preferredStatusBarStyle;
+//    if(_currentX >= 10)
+//    {
+//       statusBarStyle = _menuStatusBarStyle;
+//    } 
+//    else 
+//    {
+//       statusBarStyle = _contentViewController.preferredStatusBarStyle;
+//    }
+//    
+//    return statusBarStyle;
+//}
+//- (void)statusBarNeedsAppearanceUpdate
+//{
+//    //更新statusbar风格的变化
+//    if([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) 
+//    {
+//        [UIView animateWithDuration:0.15f animations:^{
+//            [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
+//        }];
+//    }
+//}
+
 
 
 
