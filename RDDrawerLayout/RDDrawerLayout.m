@@ -69,7 +69,7 @@
     
     //设置一个按钮点击实现抽屉效果
     UIButton *leftButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    leftButton.frame = CGRectMake(0, 50, 60, 60);
+    leftButton.frame = CGRectMake(0, 50, 60, 20);
     [leftButton addTarget:self action:@selector(leftButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     [leftButton setTitle:@"LEFT" forState:UIControlStateNormal];
     [self.contentViewController.view addSubview:leftButton];
@@ -86,10 +86,17 @@
     _maskBtn.backgroundColor = [UIColor blackColor];
     _maskBtn.alpha = 0.0;
     [self.contentViewController.view addSubview:_maskBtn];
+    
+    //[self updateContentShadow];
 }
 
 -(void)leftButtonPressed
 {
+//    [UIView animateWithDuration:0.25 animations:^{
+//        self.contentViewController.view.transform = CGAffineTransformMakeScale(0.7f, 0.7f);
+//    }];
+    
+    
     //判断抽屉是否是展开状态
     if (self.contentViewController.view.frame.origin.x == 0) 
     {
@@ -110,6 +117,8 @@
 }
 
 
+
+
 #pragma mark -
 #pragma mark 内部方法
 - (void)changeContentRadius:(float)radius
@@ -122,6 +131,18 @@
     _maskBtn.frame = nframe;
     _maskBtn.alpha = nalpha;
 }
+
+//- (void)updateContentShadow
+//{
+//    CALayer *layer = self.contentViewController.view.layer;
+//    UIBezierPath *path = [UIBezierPath bezierPathWithRect:layer.bounds];
+//    layer.shadowPath = path.CGPath;
+//    layer.shadowColor = [UIColor blackColor].CGColor;
+//    layer.shadowOffset = CGSizeZero;
+//    layer.shadowOpacity = 0.4f;
+//    layer.shadowRadius = 8.0f;
+//}
+
 
 
 

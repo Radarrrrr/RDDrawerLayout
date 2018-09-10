@@ -5,7 +5,7 @@
 //  Created by radar on 2018/8/27.
 //  Copyright © 2018年 radar. All rights reserved.
 //
-//注：本框架不适合用系统原生NavgationBar，建议自定义导航条，或者直接使用本框架自带的导航条
+//注：本框架不适合用系统原生NavgationBar，建议自定义导航条，或者直接使用本框架自带的导航条 （其实是犯懒不想做主控制器的container了 -_-!）
 //1. 框架会根据menuVC和主控制器rootVC的statusBarStyle自动改变状态，前提是需要在这两个VC中使用 -(UIStatusBarStyle)preferredStatusBarStyle 方法声明自己的风格
 
 
