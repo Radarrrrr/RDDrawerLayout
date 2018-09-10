@@ -43,7 +43,6 @@
 @property (nonatomic) float contentRadius;      //主控制器滑开以后，剩余可见部分的圆角 0～随意 不填默认 15（0为无圆角）
 
 
-//TO DO: 做content滑开以后有偏深色按钮覆盖，点击content区域可以关闭menu
 //TO DO: 做content阴影
 //TO DO: 做自定义导航条并嵌入框架
 //TO DO: 做整个menu view的缩放效果，带图片，带文字一起缩放

@@ -18,13 +18,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.view.backgroundColor = [UIColor lightGrayColor];
-    //self.preferredStatusBarStyle
+    self.view.backgroundColor = [UIColor whiteColor];
+    
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
-    return UIStatusBarStyleLightContent;
+    return UIStatusBarStyleDefault;
 }
 
 

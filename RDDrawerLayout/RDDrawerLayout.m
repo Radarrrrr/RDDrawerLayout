@@ -12,7 +12,7 @@
 #define SCRW [UIScreen mainScreen].bounds.size.width
 #define SCRH [UIScreen mainScreen].bounds.size.height
 
-
+#define MASK_BTN_SHOW_ALPHA 0.2 
 
 @interface RDDrawerLayout ()
 
@@ -23,6 +23,8 @@
 @property (nonatomic) float showY;  //content滑开最远处的Y值
 
 @property (nonatomic) BOOL  showing;  //if menu is showing
+
+@property (nonatomic, retain) UIButton *maskBtn; 
 
 @end
 
@@ -42,7 +44,7 @@
 - (void)commonInit
 {
     self.contentLeaveWidth = 60.0;
-    self.contentLeaveScale = 0.75;
+    self.contentLeaveScale = 0.618;
     self.contentRadius = 15;
 }
 
@@ -50,7 +52,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.view.backgroundColor = [UIColor blueColor];
+    self.view.backgroundColor = [UIColor whiteColor];
    
     //根据外部设定属性，重新计算内部使用的属性
     self.startX = 0.0;
@@ -67,15 +69,23 @@
     
     //设置一个按钮点击实现抽屉效果
     UIButton *leftButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    leftButton.frame = CGRectMake(0, 50, 150, 150);
+    leftButton.frame = CGRectMake(0, 50, 60, 60);
     [leftButton addTarget:self action:@selector(leftButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-    [leftButton setTitle:@"left" forState:UIControlStateNormal];
+    [leftButton setTitle:@"LEFT" forState:UIControlStateNormal];
     [self.contentViewController.view addSubview:leftButton];
     
-    
+    //添加手势
     UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
     panGesture.delegate = self;
     [self.view addGestureRecognizer:panGesture];
+    
+    //设置maskbtn
+    self.maskBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _maskBtn.frame = CGRectMake(0, 0, SCRW, SCRH);
+    [_maskBtn addTarget:self action:@selector(maskBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+    _maskBtn.backgroundColor = [UIColor blackColor];
+    _maskBtn.alpha = 0.0;
+    [self.contentViewController.view addSubview:_maskBtn];
 }
 
 -(void)leftButtonPressed
@@ -94,7 +104,10 @@
     }
 }
 
-
+- (void)maskBtnAction:(id)sender
+{
+    [self hideMenu];
+}
 
 
 #pragma mark -
@@ -104,7 +117,11 @@
     _contentViewController.view.layer.cornerRadius = radius;
     _contentViewController.view.layer.masksToBounds = YES;
 }
-
+- (void)changeMaskBtnFrame:(CGRect)nframe alpha:(float)nalpha
+{
+    _maskBtn.frame = nframe;
+    _maskBtn.alpha = nalpha;
+}
 
 
 
@@ -149,7 +166,10 @@
         }];
     }
 }
-
+- (BOOL)prefersStatusBarHidden
+{
+    return NO;
+}
 
 
 
@@ -215,15 +235,15 @@
         //tr.x < 0 向左滑动, tr.x > 0向右滑动
         float toX = _startX+tr.x;
         
-        float k   = toX/_showX;
-        float toY = _showY * k;
-        float toH = SCRH - ((SCRH*(1-_contentLeaveScale)) * k);
-        float toW = toH * (SCRW/SCRH);
-        
-        float toRadus = _contentRadius * k;
-        
         if(toX > 0 && toX <=_showX) 
         {
+            float k   = toX/_showX;
+            float toY = _showY * k;
+            float toH = SCRH - ((SCRH*(1-_contentLeaveScale)) * k);
+            float toW = toH * (SCRW/SCRH);
+            
+            float toRadus = _contentRadius * k;
+            
             //改变位置
             CGRect uframe = _contentViewController.view.frame;
             uframe.origin.x = toX;
@@ -234,6 +254,9 @@
             
             //改变圆角
             [self changeContentRadius:toRadus];
+            
+            //改变maskbtn的状态
+            [self changeMaskBtnFrame:CGRectMake(0, 0, toW, toH) alpha:MASK_BTN_SHOW_ALPHA*k];
             
             //取一下当前的x值
             self.currentX = toX;
@@ -295,6 +318,7 @@
     float nw;
     float nh;
     float nr;
+    float na;
     
     NSString *animID;
     if (bshow)
@@ -304,6 +328,7 @@
         nw = SCRW*_contentLeaveScale;
         nh = SCRH*_contentLeaveScale;
         nr = _contentRadius;
+        na = MASK_BTN_SHOW_ALPHA;
         
         animID = @"show_menu";
     } 
@@ -314,6 +339,7 @@
         nw = SCRW;
         nh = SCRH;
         nr = 0;
+        na = 0.0;
         
         animID = @"close_menu";
     }
@@ -331,7 +357,11 @@
     uframe.size.height = nh;
     _contentViewController.view.frame = uframe;
     
+    //改变圆角
     [self changeContentRadius:nr];
+    
+    //改变maskbtn的状态
+    [self changeMaskBtnFrame:CGRectMake(0, 0, nw, nh) alpha:na];
     
     [UIView commitAnimations];
 }
