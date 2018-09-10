@@ -1,6 +1,6 @@
 //
 //  MenuViewController.m
-//  RDDrawerMenu
+//  RDDrawerLayoutDemo
 //
 //  Created by radar on 2018/8/27.
 //  Copyright © 2018年 radar. All rights reserved.
@@ -20,11 +20,14 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    //self.preferredStatusBarStyle = UIStatusBarStyleLightContent;
-    
-    //[self preferredStatusBarStyle];
-    
 }
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleDefault;
+}
+
+
 
 
 @end

@@ -1,6 +1,6 @@
 //
 //  RDDrawerLayout.m
-//  RDDrawerMenu
+//  RDDrawerLayoutDemo
 //
 //  Created by radar on 2018/8/27.
 //  Copyright © 2018年 radar. All rights reserved.
@@ -44,7 +44,6 @@
     self.contentLeaveWidth = 60.0;
     self.contentLeaveScale = 0.75;
     self.contentRadius = 15;
-    //self.menuStatusBarStyle = UIStatusBarStyleDefault;
 }
 
 - (void)viewDidLoad {
@@ -111,32 +110,45 @@
 
 #pragma mark -
 #pragma mark Status Bar Appearance Management
-//- (UIStatusBarStyle)preferredStatusBarStyle
-//{
-//    UIStatusBarStyle statusBarStyle = UIStatusBarStyleDefault;
-//    
-//    statusBarStyle = _showing ? _menuStatusBarStyle : _contentViewController.preferredStatusBarStyle;
-//    if(_currentX >= 10)
-//    {
-//       statusBarStyle = _menuStatusBarStyle;
-//    } 
-//    else 
-//    {
-//       statusBarStyle = _contentViewController.preferredStatusBarStyle;
-//    }
-//    
-//    return statusBarStyle;
-//}
-//- (void)statusBarNeedsAppearanceUpdate
-//{
-//    //更新statusbar风格的变化
-//    if([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) 
-//    {
-//        [UIView animateWithDuration:0.15f animations:^{
-//            [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
-//        }];
-//    }
-//}
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    UIStatusBarStyle statusBarStyle = UIStatusBarStyleDefault;
+    
+    UIViewController *cntRootVC = _contentViewController;
+    
+    if([_contentViewController isKindOfClass:[UINavigationController class]])
+    {
+        //找到content的root
+        UINavigationController *cntNav = (UINavigationController*)_contentViewController;
+        if(cntNav.viewControllers.count > 0)
+        {
+            cntRootVC = [cntNav.viewControllers firstObject];
+        }
+    }
+    
+    statusBarStyle = _showing ? _menuViewController.preferredStatusBarStyle : cntRootVC.preferredStatusBarStyle;
+    
+    if(_currentX >= 10)
+    {
+       statusBarStyle = _menuViewController.preferredStatusBarStyle;
+    } 
+    else 
+    {
+       statusBarStyle = cntRootVC.preferredStatusBarStyle;
+    }
+    
+    return statusBarStyle;
+}
+- (void)updateStatusBarStyle
+{
+    //更新statusbar风格的变化
+    if([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) 
+    {
+        [UIView animateWithDuration:0.15f animations:^{
+            [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
+        }];
+    }
+}
 
 
 
@@ -226,6 +238,10 @@
             //取一下当前的x值
             self.currentX = toX;
         }
+        
+        //更新状态栏风格
+        [self updateStatusBarStyle];
+        
     } 
     else if (state == UIGestureRecognizerStateEnded) 
     {
@@ -324,25 +340,28 @@
 {
     if (!animationID || [animationID compare:@""] == NSOrderedSame) return;
 
-    if([animationID compare:@"close_menu"] == NSOrderedSame) 
-    {
-        _showing = NO;
-
-        if(self.delegate &&[(NSObject*)self.delegate respondsToSelector:@selector(drawerLayoutDidHideMenu:)])
-        {
-            [self.delegate drawerLayoutDidHideMenu:self];
-        }
-    } 
-    else if([animationID compare:@"show_menu"] == NSOrderedSame) 
+    if([animationID compare:@"show_menu"] == NSOrderedSame) 
     {
         _showing = YES;
+        _currentX = _showX;
         
         if(self.delegate &&[(NSObject*)self.delegate respondsToSelector:@selector(drawerLayoutDidShowMenu:)])
         {
             [self.delegate drawerLayoutDidShowMenu:self];
         }
     }
+    else if([animationID compare:@"close_menu"] == NSOrderedSame) 
+    {
+        _showing = NO;
+        _currentX = 0;
+
+        if(self.delegate &&[(NSObject*)self.delegate respondsToSelector:@selector(drawerLayoutDidHideMenu:)])
+        {
+            [self.delegate drawerLayoutDidHideMenu:self];
+        }
+    } 
     
+    [self updateStatusBarStyle];
 }
 
 - (void)fixContentPostion

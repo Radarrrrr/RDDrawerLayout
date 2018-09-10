@@ -1,6 +1,6 @@
 //
 //  HomeViewController.m
-//  RDDrawerMenu
+//  RDDrawerLayoutDemo
 //
 //  Created by radar on 2018/8/27.
 //  Copyright © 2018年 radar. All rights reserved.
@@ -20,6 +20,11 @@
     
     self.view.backgroundColor = [UIColor lightGrayColor];
     //self.preferredStatusBarStyle
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
 }
 
 

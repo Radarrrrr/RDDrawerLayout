@@ -43,9 +43,9 @@
     rootLayoutVC.menuViewController = menuVC;
     rootLayoutVC.contentViewController = mainNav; 
     
+    
     self.window.rootViewController = rootLayoutVC;
     [self.window makeKeyAndVisible];
-    
     
     return YES;
 }
