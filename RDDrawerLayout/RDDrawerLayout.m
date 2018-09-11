@@ -126,11 +126,11 @@
     _contentViewController.view.layer.cornerRadius = radius;
     _contentViewController.view.layer.masksToBounds = YES;
 }
-- (void)changeMaskBtnFrame:(CGRect)nframe alpha:(float)nalpha
-{
-    _maskBtn.frame = nframe;
-    _maskBtn.alpha = nalpha;
-}
+//- (void)changeMaskBtnFrame:(CGRect)nframe alpha:(float)nalpha
+//{
+//    _maskBtn.frame = nframe;
+//    _maskBtn.alpha = nalpha;
+//}
 
 //- (void)updateContentShadow
 //{
@@ -264,6 +264,10 @@
             float toW = toH * (SCRW/SCRH);
             
             float toRadus = _contentRadius * k;
+            float toScale = 1-(1-_contentLeaveScale)*k;
+            
+            //改变content的缩放比例
+            self.contentViewController.view.transform = CGAffineTransformMakeScale(toScale, toScale);
             
             //改变位置
             CGRect uframe = _contentViewController.view.frame;
@@ -277,7 +281,7 @@
             [self changeContentRadius:toRadus];
             
             //改变maskbtn的状态
-            [self changeMaskBtnFrame:CGRectMake(0, 0, toW, toH) alpha:MASK_BTN_SHOW_ALPHA*k];
+            _maskBtn.alpha = MASK_BTN_SHOW_ALPHA*k;
             
             //取一下当前的x值
             self.currentX = toX;
@@ -336,20 +340,22 @@
 {
     float nx;
     float ny;
-    float nw;
-    float nh;
+    //float nw;
+    //float nh;
     float nr;
     float na;
+    float scale;
     
     NSString *animID;
     if (bshow)
     {
         nx = _showX;
         ny = _showY;
-        nw = SCRW*_contentLeaveScale;
-        nh = SCRH*_contentLeaveScale;
+        //nw = SCRW*_contentLeaveScale;
+        //nh = SCRH*_contentLeaveScale;
         nr = _contentRadius;
         na = MASK_BTN_SHOW_ALPHA;
+        scale = _contentLeaveScale;
         
         animID = @"show_menu";
     } 
@@ -357,10 +363,11 @@
     {
         nx = 0;
         ny = 0;
-        nw = SCRW;
-        nh = SCRH;
+        //nw = SCRW;
+        //nh = SCRH;
         nr = 0;
         na = 0.0;
+        scale = 1.0;
         
         animID = @"close_menu";
     }
@@ -371,18 +378,22 @@
     [UIView setAnimationDelegate:self];
     [UIView setAnimationDidStopSelector:@selector(animationDidStop:finished:context:)];
     
+    //改变content的缩放比例
+    self.contentViewController.view.transform = CGAffineTransformMakeScale(scale, scale);
+    
+    //改变content的位置
     CGRect uframe = _contentViewController.view.frame;
     uframe.origin.x = nx;
     uframe.origin.y = ny;
-    uframe.size.width = nw;
-    uframe.size.height = nh;
+    //uframe.size.width = nw;
+    //uframe.size.height = nh;
     _contentViewController.view.frame = uframe;
     
     //改变圆角
     [self changeContentRadius:nr];
     
     //改变maskbtn的状态
-    [self changeMaskBtnFrame:CGRectMake(0, 0, nw, nh) alpha:na];
+    _maskBtn.alpha = na;
     
     [UIView commitAnimations];
 }
