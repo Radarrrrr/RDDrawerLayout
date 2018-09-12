@@ -37,13 +37,13 @@
 @property (nonatomic, strong, nonnull) UIViewController *contentViewController; //content可以使用UINavigationController，或UIViewController，或UITabBarController
 
 
-@property (nonatomic) float contentLeaveWidth;  //主控制器滑开以后，剩余可见部分的宽度 不填默认 60.0
-@property (nonatomic) float contentLeaveScale;  //主控制器滑开以后，剩余可见部分的缩放比例 等比0～1 不填默认 0.618
+//主控制器滑开以后，剩余可见部分的一些属性设置
+@property (nonatomic) float contentVisibleWidth;  //主控制器滑开以后，剩余可见部分的宽度 不填默认 60.0
+@property (nonatomic) float contentScale;         //主控制器滑开以后，剩余可见部分的缩放比例 等比0～1 不填默认 0.618
+@property (nonatomic) float contentRadius;        //主控制器滑开以后，剩余可见部分的圆角 0～随意 不填默认 15（0为无圆角）
+@property (nonatomic) BOOL  contentShadowEnabled; //主控制器滑开以后，剩余可见部分的是否有阴影  不填默认 YES
 
-@property (nonatomic) float contentRadius;      //主控制器滑开以后，剩余可见部分的圆角 0～随意 不填默认 15（0为无圆角）
 
-
-//TO DO: 做content阴影
 //TO DO: 做自定义导航条并嵌入框架
 //TO DO: 做整个menu view的缩放效果，带图片，带文字一起缩放
 

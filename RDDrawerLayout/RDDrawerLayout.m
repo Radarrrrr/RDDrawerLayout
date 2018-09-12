@@ -13,6 +13,7 @@
 #define SCRH [UIScreen mainScreen].bounds.size.height
 
 #define MASK_BTN_SHOW_ALPHA 0.2 
+#define SHADOW_OPACITY      0.5
 
 @interface RDDrawerLayout ()
 
@@ -24,7 +25,8 @@
 
 @property (nonatomic) BOOL  showing;  //if menu is showing
 
-@property (nonatomic, retain) UIButton *maskBtn; 
+@property (nonatomic, strong) UIButton *maskBtn;  //content滑开以后的覆盖层btn
+@property (nonatomic, strong) UIView *shadowView; //content的阴影背景
 
 @end
 
@@ -43,9 +45,10 @@
 
 - (void)commonInit
 {
-    self.contentLeaveWidth = 60.0;
-    self.contentLeaveScale = 0.618;
-    self.contentRadius = 15;
+    self.contentVisibleWidth = 60.0;
+    self.contentScale = 0.618;
+    self.contentRadius = 20;
+    self.contentShadowEnabled = YES;
 }
 
 - (void)viewDidLoad {
@@ -57,15 +60,32 @@
     //根据外部设定属性，重新计算内部使用的属性
     self.startX = 0.0;
     self.currentX = 0.0;
-    self.showX = SCRW - _contentLeaveWidth;
-    self.showY = SCRH*(1-_contentLeaveScale)/2;
+    self.showX = SCRW - _contentVisibleWidth;
+    self.showY = SCRH*(1-_contentScale)/2;
     self.showing = NO;
     
+    
     //将menuViewController和contentViewController添加到self中作为子控制器。将他们的view添加到self.view中
+    //添加menu
     [self addChildViewController:self.menuViewController];
     [self.view addSubview:self.menuViewController.view];
+    
+    //添加shadow
+    if(_contentShadowEnabled)
+    {
+        self.shadowView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCRW, SCRH)];
+        _shadowView.backgroundColor = [UIColor clearColor];
+        _shadowView.userInteractionEnabled = NO;
+        [self.view addSubview:_shadowView];
+        
+        [self bindingShadowToContent];
+        [self updateContentShadow];
+    }
+    
+    //添加content
     [self addChildViewController:self.contentViewController];
     [self.view addSubview:self.contentViewController.view];
+    
     
     //设置一个按钮点击实现抽屉效果
     UIButton *leftButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -87,7 +107,11 @@
     _maskBtn.alpha = 0.0;
     [self.contentViewController.view addSubview:_maskBtn];
     
-    //[self updateContentShadow];
+}
+
+- (void)dealloc
+{
+    [self removeKVOfromContent];
 }
 
 -(void)leftButtonPressed
@@ -132,16 +156,64 @@
 //    _maskBtn.alpha = nalpha;
 //}
 
-//- (void)updateContentShadow
-//{
-//    CALayer *layer = self.contentViewController.view.layer;
-//    UIBezierPath *path = [UIBezierPath bezierPathWithRect:layer.bounds];
-//    layer.shadowPath = path.CGPath;
-//    layer.shadowColor = [UIColor blackColor].CGColor;
-//    layer.shadowOffset = CGSizeZero;
-//    layer.shadowOpacity = 0.4f;
-//    layer.shadowRadius = 8.0f;
-//}
+- (void)updateContentShadow
+{
+    //更新阴影状态
+    CALayer *layer = _shadowView.layer;
+    UIBezierPath *path = [UIBezierPath bezierPathWithRect:layer.bounds];
+    layer.shadowPath = path.CGPath;
+    layer.shadowColor = [UIColor blackColor].CGColor;
+    layer.shadowOffset = CGSizeZero;
+    layer.shadowOpacity = SHADOW_OPACITY;
+    layer.shadowRadius = _contentRadius;
+}
+
+- (void)bindingShadowToContent
+{
+    //把shadow绑定到content上，跟着动
+    [self addKVOtoContent];
+}
+
+
+
+
+#pragma mark -
+#pragma mark KVO操作
+- (void)addKVOtoContent
+{
+    if(!_contentViewController) return;
+    if(!_shadowView) return;
+    
+    [_contentViewController.view addObserver:self forKeyPath:@"frame" options:NSKeyValueObservingOptionNew context:NULL];
+}
+- (void)removeKVOfromContent
+{
+    if(!_contentViewController) return;
+    if(!_shadowView) return;
+    
+    [_contentViewController.view removeObserver:self forKeyPath:@"frame"];
+}
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if(_shadowView && _contentViewController && object == _contentViewController.view && [keyPath isEqualToString:@"frame"]) 
+    {
+        float cx             = _contentViewController.view.frame.origin.x;
+        float cy             = _contentViewController.view.frame.origin.y;
+        CGAffineTransform ct = _contentViewController.view.transform;
+        
+        //shadow跟进
+        _shadowView.transform = ct;
+        
+        CGRect sframe = _shadowView.frame;
+        sframe.origin.x = cx;
+        sframe.origin.y = cy;
+        _shadowView.frame = sframe;
+        
+        return;
+    }
+    
+    [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+}
 
 
 
@@ -260,12 +332,12 @@
         {
             float k   = toX/_showX;
             float toY = _showY * k;
-            float toH = SCRH - ((SCRH*(1-_contentLeaveScale)) * k);
+            float toH = SCRH - ((SCRH*(1-_contentScale)) * k);
             float toW = toH * (SCRW/SCRH);
             
-            float toRadus = _contentRadius * k;
-            float toScale = 1-(1-_contentLeaveScale)*k;
-            
+            float toRadius = _contentRadius * k;
+            float toScale = 1-(1-_contentScale)*k;
+         
             //改变content的缩放比例
             self.contentViewController.view.transform = CGAffineTransformMakeScale(toScale, toScale);
             
@@ -278,7 +350,7 @@
             _contentViewController.view.frame = uframe;
             
             //改变圆角
-            [self changeContentRadius:toRadus];
+            [self changeContentRadius:toRadius];
             
             //改变maskbtn的状态
             _maskBtn.alpha = MASK_BTN_SHOW_ALPHA*k;
@@ -351,11 +423,11 @@
     {
         nx = _showX;
         ny = _showY;
-        //nw = SCRW*_contentLeaveScale;
-        //nh = SCRH*_contentLeaveScale;
+        //nw = SCRW*_contentScale;
+        //nh = SCRH*_contentScale;
         nr = _contentRadius;
         na = MASK_BTN_SHOW_ALPHA;
-        scale = _contentLeaveScale;
+        scale = _contentScale;
         
         animID = @"show_menu";
     } 
