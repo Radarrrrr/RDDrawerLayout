@@ -43,6 +43,11 @@
     rootLayoutVC.menuViewController = menuVC;
     rootLayoutVC.contentViewController = mainNav; 
     
+//    rootLayoutVC.menuScale = 1.0;
+//    rootLayoutVC.contentScale = 1.0;
+//    rootLayoutVC.contentRadius = 0.0;
+//    rootLayoutVC.contentShadowEnabled = NO;
+    
     
     self.window.rootViewController = rootLayoutVC;
     [self.window makeKeyAndVisible];

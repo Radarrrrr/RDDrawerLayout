@@ -12,8 +12,10 @@
 #define SCRW [UIScreen mainScreen].bounds.size.width
 #define SCRH [UIScreen mainScreen].bounds.size.height
 
+
 #define MASK_BTN_SHOW_ALPHA 0.2 
 #define SHADOW_OPACITY      0.5
+
 
 @interface RDDrawerLayout ()
 
@@ -49,6 +51,7 @@
     self.contentScale = 0.618;
     self.contentRadius = 20;
     self.contentShadowEnabled = YES;
+    self.menuScale = 2.0;
 }
 
 - (void)viewDidLoad {
@@ -60,7 +63,7 @@
     //根据外部设定属性，重新计算内部使用的属性
     self.startX = 0.0;
     self.currentX = 0.0;
-    self.showX = SCRW - _contentVisibleWidth;
+    self.showX = SCRW-_contentVisibleWidth;
     self.showY = SCRH*(1-_contentScale)/2;
     self.showing = NO;
     
@@ -87,12 +90,9 @@
     [self.view addSubview:self.contentViewController.view];
     
     
-    //设置一个按钮点击实现抽屉效果
-    UIButton *leftButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    leftButton.frame = CGRectMake(0, 50, 60, 20);
-    [leftButton addTarget:self action:@selector(leftButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-    [leftButton setTitle:@"LEFT" forState:UIControlStateNormal];
-    [self.contentViewController.view addSubview:leftButton];
+    //初始化缩放menu控制器
+    _menuViewController.view.transform = CGAffineTransformMakeScale(_menuScale, _menuScale);
+    
     
     //添加手势
     UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
@@ -114,47 +114,20 @@
     [self removeKVOfromContent];
 }
 
--(void)leftButtonPressed
-{
-//    [UIView animateWithDuration:0.25 animations:^{
-//        self.contentViewController.view.transform = CGAffineTransformMakeScale(0.7f, 0.7f);
-//    }];
-    
-    
-    //判断抽屉是否是展开状态
-    if (self.contentViewController.view.frame.origin.x == 0) 
-    {
-        //to show
-        [self showMenu];
-        
-    }
-    else
-    {
-        //to hide
-        [self hideMenu];
-    }
-}
 
+
+#pragma mark -
+#pragma mark 内部方法
 - (void)maskBtnAction:(id)sender
 {
     [self hideMenu];
 }
 
-
-
-
-#pragma mark -
-#pragma mark 内部方法
 - (void)changeContentRadius:(float)radius
 {
     _contentViewController.view.layer.cornerRadius = radius;
     _contentViewController.view.layer.masksToBounds = YES;
 }
-//- (void)changeMaskBtnFrame:(CGRect)nframe alpha:(float)nalpha
-//{
-//    _maskBtn.frame = nframe;
-//    _maskBtn.alpha = nalpha;
-//}
 
 - (void)updateContentShadow
 {
@@ -165,7 +138,7 @@
     layer.shadowColor = [UIColor blackColor].CGColor;
     layer.shadowOffset = CGSizeZero;
     layer.shadowOpacity = SHADOW_OPACITY;
-    layer.shadowRadius = _contentRadius;
+    layer.shadowRadius = _contentRadius <= 6 ? 6:_contentRadius;
 }
 
 - (void)bindingShadowToContent
@@ -336,10 +309,14 @@
             float toW = toH * (SCRW/SCRH);
             
             float toRadius = _contentRadius * k;
-            float toScale = 1-(1-_contentScale)*k;
+            float toCScale = 1-(1-_contentScale)*k;
+            float toMScale = _menuScale-(_menuScale-1.0)*k;
          
             //改变content的缩放比例
-            self.contentViewController.view.transform = CGAffineTransformMakeScale(toScale, toScale);
+            self.contentViewController.view.transform = CGAffineTransformMakeScale(toCScale, toCScale);
+            
+            //改变menu的缩放比例
+            self.menuViewController.view.transform = CGAffineTransformMakeScale(toMScale, toMScale);
             
             //改变位置
             CGRect uframe = _contentViewController.view.frame;
@@ -412,22 +389,20 @@
 {
     float nx;
     float ny;
-    //float nw;
-    //float nh;
     float nr;
     float na;
-    float scale;
+    float cscale;
+    float mscale;
     
     NSString *animID;
     if (bshow)
     {
         nx = _showX;
         ny = _showY;
-        //nw = SCRW*_contentScale;
-        //nh = SCRH*_contentScale;
         nr = _contentRadius;
         na = MASK_BTN_SHOW_ALPHA;
-        scale = _contentScale;
+        cscale = _contentScale;
+        mscale = 1.0;
         
         animID = @"show_menu";
     } 
@@ -435,11 +410,10 @@
     {
         nx = 0;
         ny = 0;
-        //nw = SCRW;
-        //nh = SCRH;
         nr = 0;
         na = 0.0;
-        scale = 1.0;
+        cscale = 1.0;
+        mscale = _menuScale;
         
         animID = @"close_menu";
     }
@@ -451,14 +425,15 @@
     [UIView setAnimationDidStopSelector:@selector(animationDidStop:finished:context:)];
     
     //改变content的缩放比例
-    self.contentViewController.view.transform = CGAffineTransformMakeScale(scale, scale);
+    self.contentViewController.view.transform = CGAffineTransformMakeScale(cscale, cscale);
+    
+    //改变menu的缩放比利
+    self.menuViewController.view.transform = CGAffineTransformMakeScale(mscale, mscale);
     
     //改变content的位置
     CGRect uframe = _contentViewController.view.frame;
     uframe.origin.x = nx;
     uframe.origin.y = ny;
-    //uframe.size.width = nw;
-    //uframe.size.height = nh;
     _contentViewController.view.frame = uframe;
     
     //改变圆角
@@ -519,6 +494,7 @@
 
 
 
+
 #pragma mark -
 #pragma mark 对外支持方法
 - (void)showMenu
@@ -529,11 +505,6 @@
 {
     [self showLeftMenu:NO duration:0.15];
 }
-
-
-
-
-
 
 
 
