@@ -33,7 +33,7 @@
 
     
     //添加自定义导航栏
-    //[[CustomNavBar sharedNavBar] addNavBarOnMainNav:_mainNav];
+    //[[RDNavigationBar sharedNavBar] addNavBarOnMainNav:_mainNav];
     
     
     MenuViewController  *menuVC = [[MenuViewController alloc] init];
@@ -47,6 +47,7 @@
 //    rootLayoutVC.contentScale = 1.0;
 //    rootLayoutVC.contentRadius = 0.0;
 //    rootLayoutVC.contentShadowEnabled = NO;
+//    rootLayoutVC.useCustomNavBar = YES;
     
     
     self.window.rootViewController = rootLayoutVC;

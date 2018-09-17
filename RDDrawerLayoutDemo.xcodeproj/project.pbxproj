@@ -15,6 +15,9 @@
 		0C520AD521451881007952A4 /* RDDrawerLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C520AD321451881007952A4 /* RDDrawerLayout.m */; };
 		0C520ADA21451AD4007952A4 /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C520AD621451AD4007952A4 /* MenuViewController.m */; };
 		0C520ADB21451AD4007952A4 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C520AD721451AD4007952A4 /* HomeViewController.m */; };
+		0C64FCFF214F9A5200B966C7 /* rdnav_back.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C64FCFE214F9A5200B966C7 /* rdnav_back.png */; };
+		0C64FD02214FA8D700B966C7 /* NextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C64FD01214FA8D700B966C7 /* NextViewController.m */; };
+		0CAB4456214BAE8D00640C0D /* RDNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAB4455214BAE8D00640C0D /* RDNavigationBar.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +35,11 @@
 		0C520AD721451AD4007952A4 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 		0C520AD821451AD4007952A4 /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuViewController.h; sourceTree = "<group>"; };
 		0C520AD921451AD4007952A4 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
+		0C64FCFE214F9A5200B966C7 /* rdnav_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rdnav_back.png; sourceTree = "<group>"; };
+		0C64FD00214FA8D700B966C7 /* NextViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NextViewController.h; sourceTree = "<group>"; };
+		0C64FD01214FA8D700B966C7 /* NextViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NextViewController.m; sourceTree = "<group>"; };
+		0CAB4454214BAE8D00640C0D /* RDNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDNavigationBar.h; sourceTree = "<group>"; };
+		0CAB4455214BAE8D00640C0D /* RDNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDNavigationBar.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +79,8 @@
 				0C520AD721451AD4007952A4 /* HomeViewController.m */,
 				0C520AD821451AD4007952A4 /* MenuViewController.h */,
 				0C520AD621451AD4007952A4 /* MenuViewController.m */,
+				0C64FD00214FA8D700B966C7 /* NextViewController.h */,
+				0C64FD01214FA8D700B966C7 /* NextViewController.m */,
 				0C520AC221451820007952A4 /* Main.storyboard */,
 				0C520AC521451821007952A4 /* Assets.xcassets */,
 				0C520AC721451821007952A4 /* LaunchScreen.storyboard */,
@@ -83,6 +93,9 @@
 		0C520AD221451881007952A4 /* RDDrawerLayout */ = {
 			isa = PBXGroup;
 			children = (
+				0CAB4454214BAE8D00640C0D /* RDNavigationBar.h */,
+				0CAB4455214BAE8D00640C0D /* RDNavigationBar.m */,
+				0C64FCFE214F9A5200B966C7 /* rdnav_back.png */,
 				0C520AD421451881007952A4 /* RDDrawerLayout.h */,
 				0C520AD321451881007952A4 /* RDDrawerLayout.m */,
 			);
@@ -146,6 +159,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0C64FCFF214F9A5200B966C7 /* rdnav_back.png in Resources */,
 				0C520AC921451821007952A4 /* LaunchScreen.storyboard in Resources */,
 				0C520AC621451821007952A4 /* Assets.xcassets in Resources */,
 				0C520AC421451820007952A4 /* Main.storyboard in Resources */,
@@ -163,7 +177,9 @@
 				0C520ACC21451821007952A4 /* main.m in Sources */,
 				0C520ABE21451820007952A4 /* AppDelegate.m in Sources */,
 				0C520ADA21451AD4007952A4 /* MenuViewController.m in Sources */,
+				0C64FD02214FA8D700B966C7 /* NextViewController.m in Sources */,
 				0C520ADB21451AD4007952A4 /* HomeViewController.m in Sources */,
+				0CAB4456214BAE8D00640C0D /* RDNavigationBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

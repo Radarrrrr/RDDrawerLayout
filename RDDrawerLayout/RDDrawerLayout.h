@@ -45,8 +45,12 @@
 @property (nonatomic) float menuScale;            //菜单控制器的缩放比例 等比1～X 不填默认 2.0 如果不需要缩放就填1.0
 
 
-//TO DO: 做自定义导航条并嵌入框架
+//附属能力属性设置
+@property (nonatomic) BOOL useCustomNavBar;   //是否自己写导航条，而不用本框架提供的？ 不填默认 NO (用本类的)
 
+
+//TO DO: 自定义导航条做右上角多按钮及图片设定处理
+//TO DO: 考虑DDCenter的嵌入方式
 
 
 - (void)showMenu;  //显示菜单

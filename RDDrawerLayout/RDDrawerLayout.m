@@ -7,13 +7,14 @@
 //
 
 #import "RDDrawerLayout.h"
+#import "RDNavigationBar.h"
 
 
 #define SCRW [UIScreen mainScreen].bounds.size.width
 #define SCRH [UIScreen mainScreen].bounds.size.height
 
 
-#define MASK_BTN_SHOW_ALPHA 0.2 
+#define MASK_BTN_SHOW_ALPHA 0.1 
 #define SHADOW_OPACITY      0.5
 
 
@@ -52,6 +53,7 @@
     self.contentRadius = 20;
     self.contentShadowEnabled = YES;
     self.menuScale = 2.0;
+    self.useCustomNavBar = NO;
 }
 
 - (void)viewDidLoad {
@@ -98,6 +100,13 @@
     UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
     panGesture.delegate = self;
     [self.view addGestureRecognizer:panGesture];
+    
+    
+    //添加自定义导航条RDNavigationBar
+    if(!_useCustomNavBar)
+    {
+        [[RDNavigationBar sharedNavBar] addNavBarOnLayout:self];
+    }
     
     //设置maskbtn
     self.maskBtn = [UIButton buttonWithType:UIButtonTypeCustom];

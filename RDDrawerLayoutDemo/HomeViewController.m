@@ -7,6 +7,8 @@
 //
 
 #import "HomeViewController.h"
+#import "NextViewController.h"
+
 
 @interface HomeViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -67,13 +69,20 @@
         cell.accessoryType = UITableViewCellAccessoryNone;
     }
     
-    cell.textLabel.text = @"这是一行测试文字";
+    cell.textLabel.text = @"点我进入下一页";
     
     return cell;
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NextViewController *nextVC = [[NextViewController alloc] init];
+    [self.navigationController pushViewController:nextVC animated:YES];
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 60;
+    return 100;
 }
 
 
