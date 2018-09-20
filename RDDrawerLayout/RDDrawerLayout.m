@@ -53,7 +53,7 @@
     self.contentRadius = 20;
     self.contentShadowEnabled = YES;
     self.menuScale = 2.0;
-    self.useCustomNavBar = NO;
+    self.ihaveNavBar = NO;
 }
 
 - (void)viewDidLoad {
@@ -103,7 +103,7 @@
     
     
     //添加自定义导航条RDNavigationBar
-    if(!_useCustomNavBar)
+    if(!_ihaveNavBar)
     {
         [[RDNavigationBar sharedNavBar] addNavBarOnLayout:self];
     }

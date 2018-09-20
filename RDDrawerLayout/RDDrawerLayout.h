@@ -46,7 +46,7 @@
 
 
 //附属能力属性设置
-@property (nonatomic) BOOL useCustomNavBar;   //是否自己写导航条，而不用本框架提供的？ 不填默认 NO (用本类的)
+@property (nonatomic) BOOL ihaveNavBar;   //是否自己写导航条，而不用本框架提供的？ 不填默认 NO (用本类的)
 
 
 //TO DO: 自定义导航条做右上角多按钮及图片设定处理
