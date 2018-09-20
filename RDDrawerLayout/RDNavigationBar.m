@@ -131,6 +131,16 @@ typedef enum {
     [drawerLayout.contentViewController.view addSubview:self];
 }
 
+- (void)changeBackButtonImage:(UIImage *)image
+{
+    if(!image) return;
+    if(![image isKindOfClass:[UIImage class]]) return;
+    
+    [_navBackBtn setBackgroundImage:image forState:UIControlStateNormal];
+}
+
+
+
 
 
 #pragma mark - 内部方法

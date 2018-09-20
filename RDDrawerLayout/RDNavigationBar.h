@@ -19,7 +19,7 @@
 
 - (void)addNavBarOnLayout:(RDDrawerLayout*)drawerLayout; //添加本导航条到布局控制器上，本方法只能调用一次
 
-
+- (void)changeBackButtonImage:(UIImage *)image; //更换返回按钮的图片
 
 
 
