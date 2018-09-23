@@ -21,6 +21,7 @@
     // Do any additional setup after loading the view.
     
     self.view.backgroundColor = [UIColor whiteColor];
+    self.title = @"这是首页";
     
     float width  = [UIScreen mainScreen].bounds.size.width;
     float height = [UIScreen mainScreen].bounds.size.height;

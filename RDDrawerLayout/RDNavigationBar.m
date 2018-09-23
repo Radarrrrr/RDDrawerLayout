@@ -87,6 +87,7 @@ typedef enum {
         [_navBackBtn setBackgroundImage:[UIImage imageNamed:@"rdnav_back.png"] forState:UIControlStateNormal];
         [_navBackBtn addTarget:self action:@selector(navBackAction:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_navBackBtn];
+    
         
     }
     
@@ -96,7 +97,6 @@ typedef enum {
 - (void)dealloc
 {
 }
-
 
 
 

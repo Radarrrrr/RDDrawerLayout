@@ -17,10 +17,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor redColor];
+    self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"这是下一个页面哦";
-    
 }
+
+
 
 
 @end
