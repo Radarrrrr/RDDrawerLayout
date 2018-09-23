@@ -10,8 +10,9 @@
 
 
 #import <UIKit/UIKit.h>
-#import "RDDrawerLayout.h"
+#import "UIViewController+RDNavigationBar.h"
 
+@class RDDrawerLayout;
 
 @interface RDNavigationBar : UIView <UINavigationControllerDelegate>
 

@@ -7,6 +7,7 @@
 //
 
 #import "NextViewController.h"
+#import "RDDrawerLayout.h"
 
 @interface NextViewController ()
 
@@ -17,8 +18,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor redColor];
+    self.view.backgroundColor = [UIColor whiteColor];
     //self.title = @"这是下一个页面哦";
+    
+    UIView *tView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 150, 30)];
+    tView.backgroundColor = [UIColor greenColor];
+    self.titleView =  tView;
 }
 
 

@@ -7,7 +7,6 @@
 //
 
 #import "RDDrawerLayout.h"
-#import "RDNavigationBar.h"
 
 
 #define SCRW [UIScreen mainScreen].bounds.size.width

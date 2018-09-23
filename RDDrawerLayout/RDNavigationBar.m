@@ -7,6 +7,7 @@
 //
 
 #import "RDNavigationBar.h"
+#import "RDDrawerLayout.h"
 
 
 #define RDNAV_STATUS_BAR_HEIGHT (RDNAV_IPHONEX_OR_LATER) ? 44.0f : 20.0f
@@ -216,17 +217,10 @@ typedef enum {
 //UINavigationControllerDelegate
 - (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
-    //显示或者隐藏title
-    _titleLabel.text = viewController.title;
-    if(self.titleLabel.text)
-    {
-        self.titleLabel.alpha = 1.0;
-    }
-    else
-    {
-        self.titleLabel.alpha = 0.0;
-    }
-
+    //根据当前vc的属性，改变导航条的状态
+    [self changeNavBarStatusByCurrentVC:viewController];
+    
+    
     //调整返回按钮状态
     NSInteger vcount = _navController.viewControllers.count;
     //NSLog(@"vcount: %ld", vcount);
@@ -253,6 +247,70 @@ typedef enum {
         self.curDirection = direction;
     }];
 }  
+
+- (void)changeNavBarStatusByCurrentVC:(UIViewController *)viewController
+{
+    //根据当前vc的属性，改变导航条的状态
+    if(!viewController || ![viewController isKindOfClass:[UIViewController class]]) return;
+    
+    //处理底线的显示
+    if(viewController.title || viewController.titleView)
+    {
+        _bottomLine.alpha = 1.0;
+    }
+    else
+    {
+        _bottomLine.alpha = 0.0;
+    }
+    
+    
+    //显示或者隐藏title
+    _titleLabel.text = viewController.title;
+    if(_titleLabel.text)
+    {
+        _titleLabel.alpha = 1.0;
+        
+    }
+    else
+    {
+        _titleLabel.alpha = 0.0;
+    }
+    
+    
+    //显示或者隐藏titleView
+    [self removeSubViewOfTitleView]; //移除titleView上的所有subView
+    
+    UIView *ctView = viewController.titleView;
+    
+    if(ctView && [ctView isKindOfClass:[UIView class]])
+    {
+        //把当前的titleview添加到自己的titleview上，修改一下center位置，让其放置在自己titleview的中间
+        CGPoint correctCenter = CGPointMake(CGRectGetWidth(_titleView.frame)/2, CGRectGetHeight(_titleView.frame)/2);
+        ctView.center = correctCenter;
+        
+        [_titleView addSubview:ctView];
+        
+        _titleView.alpha = 1.0;
+    }
+    else
+    {
+        _titleView.alpha = 0.0;
+    }
+    
+}
+
+-(void)removeSubViewOfTitleView
+{
+    //移除titleView上的所有subView
+    NSArray<UIView *> *subViews = _titleView.subviews;
+    if (subViews.count < 1) return;
+    
+    for(int i = 0; i < subViews.count; i++)
+    {
+        [subViews[i] removeFromSuperview];
+    }
+}
+
 
 //事件响应链处理
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event 

@@ -25,19 +25,18 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
+    
+    //创建主页面
     HomeViewController *homeVC = [[HomeViewController alloc] init];
     
     UINavigationController *mainNav = [[UINavigationController alloc] initWithRootViewController:homeVC];
     mainNav.navigationBar.translucent = NO; //不要导航条模糊，为了让页面从导航条下部是0开始，如果为YES，则从屏幕顶部开始是0
     mainNav.navigationBar.hidden=YES;  //注意，此处不要使用后面的这个方法 -> _mainNav.navigationBarHidden = YES; 用这个会影响右滑关闭手势
 
-    
-    //添加自定义导航栏
-    //[[RDNavigationBar sharedNavBar] addNavBarOnMainNav:_mainNav];
-    
-    
     MenuViewController  *menuVC = [[MenuViewController alloc] init];
 
+    
+    //创建框架
     RDDrawerLayout *rootLayoutVC = [[RDDrawerLayout alloc]init];
     rootLayoutVC.delegate = self;
     rootLayoutVC.menuViewController = menuVC;

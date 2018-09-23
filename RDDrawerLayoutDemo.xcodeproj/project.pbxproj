@@ -17,6 +17,7 @@
 		0C520ADB21451AD4007952A4 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C520AD721451AD4007952A4 /* HomeViewController.m */; };
 		0C64FCFF214F9A5200B966C7 /* rdnav_back.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C64FCFE214F9A5200B966C7 /* rdnav_back.png */; };
 		0C64FD02214FA8D700B966C7 /* NextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C64FD01214FA8D700B966C7 /* NextViewController.m */; };
+		0C7D86A221578A53009EFD4C /* UIViewController+RDNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7D86A121578A53009EFD4C /* UIViewController+RDNavigationBar.m */; };
 		0CAB4456214BAE8D00640C0D /* RDNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAB4455214BAE8D00640C0D /* RDNavigationBar.m */; };
 /* End PBXBuildFile section */
 
@@ -38,6 +39,8 @@
 		0C64FCFE214F9A5200B966C7 /* rdnav_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rdnav_back.png; sourceTree = "<group>"; };
 		0C64FD00214FA8D700B966C7 /* NextViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NextViewController.h; sourceTree = "<group>"; };
 		0C64FD01214FA8D700B966C7 /* NextViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NextViewController.m; sourceTree = "<group>"; };
+		0C7D86A021578A53009EFD4C /* UIViewController+RDNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+RDNavigationBar.h"; sourceTree = "<group>"; };
+		0C7D86A121578A53009EFD4C /* UIViewController+RDNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+RDNavigationBar.m"; sourceTree = "<group>"; };
 		0CAB4454214BAE8D00640C0D /* RDNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDNavigationBar.h; sourceTree = "<group>"; };
 		0CAB4455214BAE8D00640C0D /* RDNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDNavigationBar.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -93,11 +96,13 @@
 		0C520AD221451881007952A4 /* RDDrawerLayout */ = {
 			isa = PBXGroup;
 			children = (
+				0C520AD421451881007952A4 /* RDDrawerLayout.h */,
+				0C520AD321451881007952A4 /* RDDrawerLayout.m */,
 				0CAB4454214BAE8D00640C0D /* RDNavigationBar.h */,
 				0CAB4455214BAE8D00640C0D /* RDNavigationBar.m */,
 				0C64FCFE214F9A5200B966C7 /* rdnav_back.png */,
-				0C520AD421451881007952A4 /* RDDrawerLayout.h */,
-				0C520AD321451881007952A4 /* RDDrawerLayout.m */,
+				0C7D86A021578A53009EFD4C /* UIViewController+RDNavigationBar.h */,
+				0C7D86A121578A53009EFD4C /* UIViewController+RDNavigationBar.m */,
 			);
 			path = RDDrawerLayout;
 			sourceTree = "<group>";
@@ -173,6 +178,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0C7D86A221578A53009EFD4C /* UIViewController+RDNavigationBar.m in Sources */,
 				0C520AD521451881007952A4 /* RDDrawerLayout.m in Sources */,
 				0C520ACC21451821007952A4 /* main.m in Sources */,
 				0C520ABE21451820007952A4 /* AppDelegate.m in Sources */,

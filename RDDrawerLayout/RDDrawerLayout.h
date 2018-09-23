@@ -12,6 +12,7 @@
 
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
+#import "RDNavigationBar.h"
 
 
 @class RDDrawerLayout;
@@ -46,10 +47,12 @@
 
 
 //附属能力属性设置
-@property (nonatomic) BOOL ihaveNavBar;   //是否自己写导航条，而不用本框架提供的？ 不填默认 NO (用本类的)
+@property (nonatomic) BOOL ihaveNavBar;   //是否自己写导航条，而不用本框架提供的？ 不填默认 NO (用本类的), PS:如果使用本框架导航条，建议在PCH文件中全局引用 #import "RDDrawerLayout.h" 
+
 
 
 //TO DO: 自定义导航条做右上角多按钮及图片设定处理
+//TO DO: 考虑中间如果没有title或titleview的情况下，挖空点击穿透处理
 //TO DO: 考虑DDCenter的嵌入方式
 
 
