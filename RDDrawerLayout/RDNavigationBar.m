@@ -37,7 +37,9 @@ typedef enum {
 @property (nonatomic, strong) UIButton *navBackBtn;         //主导航返回按钮
 @property (nonatomic)         NavBtnDirection curDirection; //当前按钮朝向
 
-@property (nonatomic, strong) UILabel *titleLabel; //标题label
+@property (nonatomic, strong) UILabel *titleLabel;     //标题label
+@property (nonatomic, strong) UIView  *titleView;      //导航条标题view，用来承载外部VC设置的titleView
+@property (nonatomic, strong) UIView  *bottomLine;     //导航条底线
 
 @end
 
@@ -52,7 +54,10 @@ typedef enum {
     static dispatch_once_t onceToken;
     static RDNavigationBar *navBar;
     dispatch_once(&onceToken, ^{
-        navBar = [[RDNavigationBar alloc] initWithFrame:CGRectMake(0, RDNAV_STATUS_BAR_HEIGHT, 60, 44)];
+        
+        float statusBarH = RDNAV_STATUS_BAR_HEIGHT;
+        navBar = [[RDNavigationBar alloc] initWithFrame:CGRectMake(0, 0, RDNAV_SCRW, statusBarH+44)];
+   
     });
     return navBar;
 }
@@ -62,28 +67,33 @@ typedef enum {
     self = [super initWithFrame:frame];
     if (self) 
     {
-        self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor whiteColor];
         self.curDirection = directionRight;
         
+        //add bottomLine
+        self.bottomLine = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.frame)-0.5, CGRectGetWidth(self.frame), 0.5)];
+        _bottomLine.backgroundColor = RDNAV_RGBS(230);
+        _bottomLine.userInteractionEnabled = NO;
+        [self addSubview:_bottomLine];
+        
+        //add titleView
+        self.titleView = [[UIView alloc] initWithFrame:CGRectMake(0, RDNAV_STATUS_BAR_HEIGHT, RDNAV_SCRW, 44)];
+        _titleView.backgroundColor = [UIColor clearColor];
+        [self addSubview:_titleView];
         
         //add titlelabel
-        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 8, RDNAV_SCRW-60-40, 28)]; 
+        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, RDNAV_STATUS_BAR_HEIGHT, RDNAV_SCRW, 44)]; 
         _titleLabel.backgroundColor = [UIColor clearColor];
-        _titleLabel.alpha = 0.6;
         _titleLabel.userInteractionEnabled = NO;
-        _titleLabel.textAlignment = NSTextAlignmentLeft;
+        _titleLabel.textAlignment = NSTextAlignmentCenter;
         _titleLabel.textColor = RDNAV_RGBS(50);
-        _titleLabel.font = [UIFont boldSystemFontOfSize:16];
+        _titleLabel.font = [UIFont boldSystemFontOfSize:18];
         [self addSubview:_titleLabel];
-        
-        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(-4, CGRectGetHeight(_titleLabel.frame)-1.0, CGRectGetWidth(_titleLabel.frame)+4, 1.0)];
-        line.backgroundColor = RDNAV_RGBS(150);
-        [_titleLabel addSubview:line];
         
         
         //add navBackBtn
         self.navBackBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _navBackBtn.frame = CGRectMake(10, 2, 40, 40);
+        _navBackBtn.frame = CGRectMake(10, RDNAV_STATUS_BAR_HEIGHT+2, 40, 40);
         [_navBackBtn setBackgroundImage:[UIImage imageNamed:@"rdnav_back.png"] forState:UIControlStateNormal];
         [_navBackBtn addTarget:self action:@selector(navBackAction:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_navBackBtn];
@@ -210,7 +220,7 @@ typedef enum {
     _titleLabel.text = viewController.title;
     if(self.titleLabel.text)
     {
-        self.titleLabel.alpha = 0.6;
+        self.titleLabel.alpha = 1.0;
     }
     else
     {
@@ -243,6 +253,38 @@ typedef enum {
         self.curDirection = direction;
     }];
 }  
+
+//事件响应链处理
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event 
+{
+    if(!self.isUserInteractionEnabled || self.isHidden || self.alpha <= 0.01)
+    {
+        return nil;
+    }
+    
+    if([self pointInside:point withEvent:event]) 
+    {
+        NSLog(@"point: (%f, %f)", point.x, point.y);
+        if(point.x > 60 && point.x < 300)
+        {
+            return nil;
+        }
+        
+        for(UIView *subview in [self.subviews reverseObjectEnumerator]) 
+        {
+            CGPoint convertedPoint = [subview convertPoint:point fromView:self];
+            UIView *hitTestView = [subview hitTest:convertedPoint withEvent:event];
+            if(hitTestView) 
+            {
+                return hitTestView;
+            }
+        }
+        
+        return self;
+    }
+    
+    return nil;
+}
 
 
 
