@@ -256,8 +256,11 @@
         if(!_showing)
         {
             CGPoint point = [touch locationInView:gestureRecognizer.view];
-            if(point.x < 25.0 || point.x > self.view.frame.size.width - 25.0) 
+            if(point.x < 25.0)  //point.x > self.view.frame.size.width - 25.0
             {
+                //触发手势滑动区域
+                NSLog(@"ddddddddddd");
+                //找到
                 return YES;
             } 
             else 
