@@ -31,7 +31,7 @@
 //    [self.view addSubview:backView];
     
     
-    UITableView *table = [[UITableView alloc] initWithFrame:CGRectMake(0, 20, width, height-20) style:UITableViewStylePlain];
+    UITableView *table = [[UITableView alloc] initWithFrame:CGRectMake(0, 44, width, height-88) style:UITableViewStylePlain];
     table.backgroundColor = [UIColor whiteColor];
     table.delegate = self;
     table.dataSource = self;
