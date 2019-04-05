@@ -259,10 +259,6 @@
             if(point.x < 25.0)  //point.x > self.view.frame.size.width - 25.0
             {
                 //触发手势滑动区域
-                NSLog(@"ddddddddddd");
-                //找到当前容器中的scrollview层，并关闭上下滑动手势
-                //if([_contentViewController isKindOfClass:[]])
-                
                 return YES;
             } 
             else 
@@ -275,27 +271,6 @@
     return YES;
 }
 
-//- (void)lockScrollForSidePan:(BOOL)lock
-//{
-//    //在边界滑动时处理顶层页面的锁定状态
-//    if(!_contentViewController) return;
-//    
-//    UIViewController *topVC;
-//    id useVC = _contentViewController;
-//    
-//    if([useVC isKindOfClass:[UINavigationController class]])
-//    {
-//        UINavigationController
-//        if(useVC )
-//    }
-//    else if([useVC isKindOfClass:[UITabBarController class]])
-//    {
-//        
-//    }
-//    else 
-//    
-//    
-//}
 
 
 #pragma mark -
