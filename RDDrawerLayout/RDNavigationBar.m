@@ -42,6 +42,8 @@ typedef enum {
 @property (nonatomic, strong) UIView  *titleView;      //导航条标题view，用来承载外部VC设置的titleView
 @property (nonatomic, strong) UIView  *bottomLine;     //导航条底线
 
+@property (nonatomic, strong) UIView *panMaskView;  //滑动手势遮挡条
+
 @end
 
 
@@ -99,6 +101,11 @@ typedef enum {
         [_navBackBtn addTarget:self action:@selector(navBackAction:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_navBackBtn];
     
+        
+        //add panmaskview
+        self.panMaskView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.bottomLine.frame), 10, RDNAV_SCRH)];
+        _panMaskView.backgroundColor = [UIColor clearColor];
+        _panMaskView.alpha = 0;
         
     }
     
@@ -229,13 +236,28 @@ typedef enum {
     {
         //还有可以退的层，显示向左按钮
         [self rotateNavBtnToDirection:directionLeft];
+        
+        [self showPanMask:NO];
     }
     else
     {
         //已经到了root，显示向右按钮
         [self rotateNavBtnToDirection:directionRight];
+        
+        [self showPanMask:YES];
     }
         
+}
+
+- (void)showPanMask:(BOOL)show
+{
+    //添加滑动手势的遮挡条
+    if(![_panMaskView superview])
+    {
+        [_navController.view addSubview:_panMaskView];
+    }
+    
+    _panMaskView.alpha = (float)show;
 }
 
 - (void)rotateNavBtnToDirection:(NavBtnDirection)direction
